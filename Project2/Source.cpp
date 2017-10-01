@@ -9,7 +9,7 @@ int passwordHash(string password)
 	size_t length = password.length();
 	int key = 0;
 	for (size_t i = 0; i < length; i++){
-		key += (int) password[i];
+		key ^= (int) password[i];
 	}
 		return key;
 }
