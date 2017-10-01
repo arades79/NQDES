@@ -18,7 +18,7 @@ string encrypt(string message, int key)
 {
 	string keystring = to_string(key);
 	size_t subkeyLength = keystring.length();
-	//do the algorithm 3 times
+	//do the full algorithm 3 times
 	for (int i = 0; i < 3; i++) {
 		//substitution element of algorithm
 		for (int i = 0; i < message.length(); i++) {
@@ -30,6 +30,18 @@ string encrypt(string message, int key)
 			cipher += 32;
 			message[i] = (char)cipher;
 		}
+		//transposition element of algorithm
+		for (i = 0; i < ((message.length()) / 2); i++) //execute this for loop for half of the length of the string 'message'
+		{
+			int subkey = (int)keystring[i % subkeyLength]; //creates a different value for 'subkey' for each element of the string 'message'
+			if ((key ^ subkey) % 2 == 0) //determines whether or not the values of the two elements of the string 'message' being evaluated should be swapped
+			{
+				char temp = message[i]; //assign the value contained at the ith element of the string 'message' to a temporary variable named 'temp'
+				message[i] = message[(message.length() - 1) - i]; //set the value contained at the ith element of the string 'message' equal to the value contained at 'message[(message.length()-1) - i]'
+				message[(message.length() - 1) - i] = temp; //set the value contained at 'message[(message.length()-1) - i]' equal to the value contained within the variable 'temp'
+			}
+		}
+
 	}
 	return message;
 }
@@ -40,6 +52,17 @@ string decrypt(string cipher, int key)
 	size_t subkeyLength = keystring.length();
 	//do the algorithm 3 times
 	for (int i = 0; i < 3; i++) {
+		for (i = 0; i < ((cipher.length()) / 2); i++) //execute this for loop for half of the length of the string 'message'
+		{
+			int subkey = (int)keystring[i % subkeyLength]; //creates a different value for 'subkey' for each element of the string 'message'
+			if ((key ^ subkey) % 2 == 0) //determines whether or not the values of the two elements of the string 'message' being evaluated should be swapped
+			{
+				char temp = cipher[i]; //assign the value contained at the ith element of the string 'message' to a temporary variable named 'temp'
+				cipher[i] = cipher[(cipher.length() - 1) - i]; //set the value contained at the ith element of the string 'message' equal to the value contained at 'message[(message.length()-1) - i]'
+				cipher[(cipher.length() - 1) - i] = temp; //set the value contained at 'message[(message.length()-1) - i]' equal to the value contained within the variable 'temp'
+			}
+		}
+
 		//substitution element of algorithm
 		for (int i = 0; i < cipher.length(); i++) {
 			int subkey = (int)keystring[i % subkeyLength];
