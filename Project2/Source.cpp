@@ -1,3 +1,12 @@
+/*
+Skyelar Craver
+Collin Fraioli
+NQDES (Assignment #4)
+Hardware Security
+Carpenter, Fall 2017
+*/
+
+
 #include <iostream>
 #include <stdlib.h>
 #include <string>
